@@ -22,7 +22,7 @@ class Transaksi extends CI_Controller {
 		// $this->load->model('Mmenu');
 		 // $this->load->model('Modul_login');
 		// $this->load->library('global_setting');
-		// $this->load->model('Modul_product');
+		$this->load->model('Modul_transaksi');
 		$this->load->library('cart');
 		
 	}
@@ -33,7 +33,9 @@ class Transaksi extends CI_Controller {
 			'qty'     => 1,
 			'price'   => $this->input->post('harga'),
 			'name'    => $this->input->post('nm_brg'),
-			'options' => array('img' => $this->input->post('gambar'))
+			'options' => array(
+				'img' => $this->input->post('gambar')
+				)
 		);
 	
 		$this->cart->insert($items);
@@ -60,6 +62,28 @@ class Transaksi extends CI_Controller {
 		$this->cart->update($items);
 		redirect(base_url('app/transaksi/cart'), 'refresh');
 		
+	}
+	public function simpan()
+	{
+		$data = array(
+			'status_order' =>"Baru",
+			'tgl_order' =>Date("Y-m-d"),
+			'jam_order' =>Date("H:i:s"),
+			'id_kustomer' =>"1"
+			);
+		
+		$saveorderh = $this->Modul_transaksi->get_insertorder($data);
+		
+		$jumlah = count($this->input->post('kd_brg'));
+		
+		for ($i=0;$i<$jumlah;$i++){
+			$datadetail = array(
+				'id_orders' =>$saveorderh,
+				'id_produk' =>$this->input->post('kd_brg')[$i],
+				'jumlah' =>$this->input->post('quantity')[$i]
+				);
+			$this->Modul_transaksi->get_insertorderdetail($datadetail);
+		}
 	}
 	
 }

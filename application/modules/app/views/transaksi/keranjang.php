@@ -20,6 +20,7 @@
 				</ol>
 			</div>
 			<div class="table-responsive cart_info">
+			<form action="<?=base_url();?>app/transaksi/simpan" method="POST">
 				<table class="table table-condensed">
 					<thead>
 						<tr class="cart_menu">
@@ -32,8 +33,11 @@
 						</tr>
 					</thead>
 					<tbody>
+					
 					<?php foreach($datacart as $items){?>
+					
 						<tr>
+
 							<td class="cart_product">
 								<a href=""><img src="<?=base_url();?>/assets/images/products/<?=$items['options']['img'];?>" alt="" width="50px" height="50px"></a>
 							</td>
@@ -47,7 +51,7 @@
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
 									<a class="cart_quantity_up" href=""> + </a>
-									<input class="cart_quantity_input" type="text" name="quantity" value="<?=$items['qty'];?>" autocomplete="off" size="2">
+									<input class="cart_quantity_input" type="text" name="quantity[]" value="<?=$items['qty'];?>" autocomplete="off" size="2">
 									<a class="cart_quantity_down" href=""> - </a>
 								</div>
 							</td>
@@ -57,11 +61,17 @@
 							<td class="cart_delete">
 								<a class="cart_quantity_delete" href="<?=base_url();?>app/transaksi/deletecart/<?=$items['rowid'];?>"><i class="fa fa-times"></i></a>
 							</td>
-						</tr>
 
+							<input type="hidden" name="kd_brg[]" value="<?=$items['id'];?>">
+
+						</tr>
+						
 					<?php }?>
+					
 					</tbody>
 				</table>
+				<input type="submit" class="btn btn-primary" name="btnsimpan" id="btnsimpan" value="ORDER">
+					</form>
 			</div>
 		</div>
 	</section> <!--/#cart_items-->
