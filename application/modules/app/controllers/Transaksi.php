@@ -44,9 +44,16 @@ class Transaksi extends CI_Controller {
 	}
 	public function cart()
 	{
-		$data['datacart'] = $this->cart->contents();
-		// print_r($this->cart->contents());die;
-		$this->load->view('transaksi/keranjang',$data);
+		if (!$this->session->userdata('username'))
+		{
+			
+			redirect(base_url('app/customer/register'));
+		}else{
+			$data['datacart'] = $this->cart->contents();
+			// print_r($this->cart->contents());die;
+			$this->load->view('transaksi/keranjang',$data);
+		}
+		
 		
 		
 	}
@@ -83,7 +90,17 @@ class Transaksi extends CI_Controller {
 				'jumlah' =>$this->input->post('quantity')[$i]
 				);
 			$this->Modul_transaksi->get_insertorderdetail($datadetail);
+			$items = array(
+				'rowid' => $this->input->post('rowid')[$i],
+				'qty'	=> '0',
+				'price'	=> '0',
+				'name'	=> '',
+				'options' => ''
+			);
+			$this->cart->update($items);
 		}
+		redirect(base_url());
+		
 	}
 	
 }

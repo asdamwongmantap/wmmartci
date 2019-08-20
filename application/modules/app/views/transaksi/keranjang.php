@@ -63,6 +63,7 @@
 							</td>
 
 							<input type="hidden" name="kd_brg[]" value="<?=$items['id'];?>">
+							<input type="hidden" name="rowid[]" value="<?=$items['rowid'];?>">
 
 						</tr>
 						
